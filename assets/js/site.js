@@ -513,7 +513,8 @@
   function wireFormCenter() {
     var id = location.hash && location.hash.length > 1 ? decodeURIComponent(location.hash.slice(1)) : '';
     var t = id && document.getElementById(id);
-    var card = t && (t.classList.contains('form-card') ? t : t.querySelector('.form-card'));
+    // #book also holds the question form (2026-11-16): landing there is about booking, so never re-centre on that form
+    var card = t && (t.classList.contains('form-card') ? t : (t.querySelector('.bk') ? null : t.querySelector('.form-card')));
     if (!card) return;
     var done = false;
     var stop = function () { done = true; };
@@ -1186,4 +1187,29 @@
       .then(function (d) { dict = d; apply(); }).catch(function () {});
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', wire); else wire();
+})();
+
+
+/* Form glow (Emilio, 2026-11-17): after a button or link jumps to a form, the form card glows softly twice once the
+   scroll has settled, so the visitor sees where to start. Any in-page link whose target is, or holds, a .form-card. */
+(function () {
+  function cardFor(hash) {
+    if (!hash || hash.length < 2) return null;
+    var t; try { t = document.querySelector(hash); } catch (e) { return null; }
+    if (!t) return null;
+    return t.classList.contains('form-card') ? t : t.querySelector('.form-card') || (t.closest && t.closest('.form-card'));
+  }
+  function glow(card) {
+    card.classList.remove('is-glow'); void card.offsetWidth; card.classList.add('is-glow');
+    setTimeout(function () { card.classList.remove('is-glow'); }, 2600);
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (!a) return;
+    var card = cardFor(a.getAttribute('href'));
+    if (!card) return;
+    var done = false, go = function () { if (!done) { done = true; glow(card); } };
+    if ('onscrollend' in window) window.addEventListener('scrollend', go, { once: true });
+    setTimeout(go, 900);   // no scroll needed, or no scrollend support
+  });
 })();

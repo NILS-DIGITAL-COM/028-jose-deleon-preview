@@ -2737,3 +2737,114 @@ html:has(.menu.is-open) .lang-flag, html:has(dialog[open]) .lang-flag { opacity:
 .ev-pts { color: var(--ink-2); }
 @media (max-width: 759px) { .hero--slides .hs-on .hs-dots, .hero--slides .hs-dots { top: 18px; bottom: auto; left: 16px; transform: none; } }
 @media (min-width: 760px) { .hero--ev h1 { font-size: clamp(2.75rem, 4.6vw, 4.5rem); max-width: 14ch; } .hero--ev .hero-sub { max-width: 46ch; } }
+/* the form (section 2) starts on the first screen (Emilio, 2026-11-16: "under the hero, so it's more up there and visible") */
+@media (min-width: 760px) { .hero.hero--slides { height: clamp(480px, calc(100svh - 76px - 170px), 860px); } }
+@media (max-width: 759px) { .hero.hero--slides .hero-bg { height: clamp(260px, 42svh, 420px); } }
+#dates-wrap, #ask { padding-top: clamp(28px, 4vw, 48px); }
+/* dots: 8px to see, 24px to tap */
+.hs-dot { position: relative; } .hs-dot::after { content: ""; position: absolute; inset: -8px; }
+.hs-on .hs-dots { gap: 14px; }
+
+/* /028-jose-deleon-preview/events/ new price sheet (2026-11-17): One-day rentals heading between the Signature card and its two cards; the
+   terms block is three cards with the sheet's own tables, the cancellation one wider. */
+.evk-day { margin: clamp(28px, 4vw, 44px) 0 16px; max-width: 46rem; }
+.evk-day p { margin: 6px 0 0; color: var(--ink-2); }
+.evk-more > div > .evk-notes { margin-top: 18px; }
+.evd--3 { grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr) minmax(0, 1fr); align-items: start; }
+.evd-i .evt { margin: 4px 0 12px; }
+@media (max-width: 999px) { .evd--3 { grid-template-columns: minmax(0, 1fr); } }
+
+/* /028-jose-deleon-preview/events/ section 2 (2026-11-17): facts + photo beside the form, so the left column is not empty */
+.eva .split-copy { display: flex; flex-direction: column; gap: 24px; }
+.eva .split-copy .sec-head, .eva .split-copy header { margin-bottom: 0; }
+.eva-facts { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px 20px; }
+@media (max-width: 1099px) { .eva-facts { grid-template-columns: minmax(0, 1fr); } }
+.eva-facts li { display: flex; gap: 14px; align-items: flex-start; }
+.eva-facts .ic { flex: none; width: 22px; height: 22px; margin-top: 2px; color: var(--accent, var(--ink)); }
+.eva-h { margin: 0; font-weight: 600; color: var(--ink); }
+.eva-p { margin: 2px 0 0; font-size: 0.9375rem; color: var(--ink-2); }
+.eva-fig { margin: 0; border-radius: var(--r-photo, 16px); overflow: hidden; aspect-ratio: 11 / 5; }
+.eva-fig img { width: 100%; height: 100%; object-fit: cover; display: block; }
+@media (max-width: 859px) { .eva-fig { display: none; } }
+
+/* Background rhythm (Emilio picked option 4 of 10, 2026-11-17: "missing a bit of texture"): plain sections cycle
+   white, warm cream and the blue tint, with a hairline between bands. Deep (navy) sections keep their colour. */
+main > .section:nth-of-type(3n+1):not(.section--deep) { background: #FFFFFF; }
+main > .section:nth-of-type(3n+2):not(.section--deep) { background: #F7F2EA; }
+main > .section:nth-of-type(3n):not(.section--deep) { background: var(--sand); }
+main > .section + .section { border-top: 1px solid rgba(28,36,51,.07); }
+
+/* /028-jose-deleon-preview/events/ less text (2026-11-17): FAQ tabs, folds in the price sheet, CTAs on phones too */
+.fq-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 18px; }
+.fq-tab { font: inherit; font-size: 0.9375rem; padding: 10px 18px; min-height: 44px; border-radius: 999px; border: 1px solid var(--line-strong, var(--line)); background: transparent; color: var(--ink); cursor: pointer; transition: background .2s, color .2s, border-color .2s; }
+.fq-tab[aria-selected="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
+.fq-p { display: none; }
+.fq-p.is-on { display: block; }
+.fq-p .faq-g { display: none; }
+.evk-folds { margin-top: 4px; }
+.evk-folds .panel summary, .evd-folds .panel summary { padding: 14px 0; }
+.evk-folds .panel-body p, .evd-folds .panel-body p { margin: 0 0 8px; font-size: 0.9375rem; line-height: 1.55; color: var(--ink-2); }
+.evd-folds { max-width: 760px; }
+.evd-folds .panel-t { font: 300 1.25rem/1.25 var(--font-display); }
+@media (max-width: 759px) { .sec-cta--all { display: flex; } .sec-cta--all .btn { width: 100%; justify-content: center; } }
+
+/* Form glow after a CTA jump (2026-11-17): a soft blue halo on a pseudo-element, opacity only, two pulses */
+.form-card { position: relative; }
+.form-card::after { content: ""; position: absolute; inset: -6px; border-radius: calc(var(--r-card, 20px) + 6px); pointer-events: none;
+  box-shadow: 0 0 0 3px rgba(73,106,150,.55), 0 0 36px 6px rgba(73,106,150,.45); opacity: 0; }
+.form-card.is-glow::after { animation: form-glow 2.4s ease-in-out; }
+@keyframes form-glow { 0%, 100% { opacity: 0; } 20% { opacity: 1; } 45% { opacity: .35; } 65% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .form-card.is-glow::after { animation: none; opacity: 1; transition: opacity .3s; } }
+
+/* ------------------------------------------------------------------ Home, replaced 2026-11-17 (José's homepage brief)
+   Hero = the /028-jose-deleon-preview/events/ carousel hero with two buttons and the "No event required" line under them. Then the two estates
+   as equal cards, Grand Hacienda celebrations (photo + copy), groups, a short reviews strip and a closing action. */
+.hm-ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+.hm-ctas .btn { min-height: 48px; }
+.btn--ghost-light { background: transparent; border-color: #fff; color: #fff; }
+.btn--ghost-light:hover, .btn--ghost-light:focus-visible { background: #fff; border-color: #fff; color: var(--ink); }
+.hero--home .hero-meta { flex-direction: column; align-items: flex-start; gap: 14px; }
+.hm-noevent { margin: 0; font: 500 0.9688rem/1.45 var(--font-text); color: #fff; }
+@media (min-width: 760px) { .hero--home h1 { font-size: clamp(2.75rem, 4.6vw, 4.5rem); max-width: 16ch; } .hero--home .hero-sub { max-width: 52ch; } }
+@media (max-width: 759px) {
+  .hero--home .hm-ctas { width: 100%; }
+  .hero--home .hm-ctas .btn { flex: 1 1 100%; justify-content: center; }
+  .hero--home .hm-ctas > .btn--light { background: var(--btn); border-color: var(--btn); color: var(--btn-fg); }
+  .hero--home .hm-ctas > .btn--ghost-light { background: transparent; border-color: var(--ink); color: var(--ink); }
+  .hero--home .hm-noevent { color: var(--ink); }
+}
+.hm-ests { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(16px, 2.4vw, 32px); margin-top: clamp(24px, 3vw, 40px); }
+.hm-est { display: flex; flex-direction: column; border-radius: var(--r-card); overflow: hidden; background: var(--paper); }
+.hm-est-fig { display: block; aspect-ratio: 3 / 2; overflow: hidden; }
+.hm-est-fig img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s ease; }
+.hm-est-fig:hover img { transform: scale(1.03); }
+.hm-est-body { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; padding: clamp(20px, 2.4vw, 32px); flex: 1; }
+.hm-est-name { margin: 0; font: 300 clamp(1.75rem, 2.6vw, 2.25rem)/1.15 var(--font-display); color: var(--ink); }
+.hm-est-line { margin: 0; font-size: 1.0625rem; line-height: 1.5; color: var(--ink-2); }
+.hm-est-cap { margin: 0 0 12px; font-size: 0.875rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
+.hm-est-body .btn { margin-top: auto; }
+@media (max-width: 759px) { .hm-ests { grid-template-columns: minmax(0, 1fr); } .hm-est-body .btn { width: 100%; justify-content: center; } }
+.hm-cel { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 64px); align-items: center; }
+.hm-cel-fig { margin: 0; border-radius: var(--r-photo, 16px); overflow: hidden; aspect-ratio: 4 / 3; }
+.hm-cel-fig img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.hm-cel-copy h2 { margin: 0 0 16px; }
+.hm-cel-copy p { margin: 0 0 24px; font-size: 1.0625rem; line-height: 1.65; color: var(--ink-2); max-width: 52ch; }
+@media (max-width: 859px) { .hm-cel { grid-template-columns: minmax(0, 1fr); } .hm-cel-copy .btn { width: 100%; justify-content: center; } }
+.hm-grps { list-style: none; margin: clamp(24px, 3vw, 40px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: clamp(16px, 2vw, 28px); }
+.hm-grp { grid-column: span 2; }
+.hm-grp:nth-child(4), .hm-grp:nth-child(5) { grid-column: span 3; }
+.hm-grp figure { margin: 0 0 14px; border-radius: var(--r-photo, 16px); overflow: hidden; aspect-ratio: 4 / 3; }
+.hm-grp figure img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.hm-grp h3 { margin: 0 0 6px; font: 400 1.25rem/1.3 var(--font-display); color: var(--ink); }
+.hm-grp p { margin: 0; font-size: 1rem; line-height: 1.55; color: var(--ink-2); }
+@media (max-width: 899px) { .hm-grps { grid-template-columns: repeat(2, minmax(0, 1fr)); } .hm-grp, .hm-grp:nth-child(4) { grid-column: span 1; } .hm-grp:nth-child(5) { grid-column: 1 / -1; } }
+@media (max-width: 559px) { .hm-grps { grid-template-columns: minmax(0, 1fr); } .hm-grp:nth-child(5) { grid-column: auto; } }
+.hm-creds { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 0.9375rem; color: var(--ink-2); }
+.hm-creds li { display: inline-flex; align-items: center; gap: 6px; }
+.hm-creds .ic--star { width: 16px; height: 16px; fill: #E3A93C; color: #E3A93C; }
+.hm-rv-h { font-style: normal; font-size: 0.8125rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
+.hm-final { text-align: center; max-width: 720px; margin: 0 auto; }
+.hm-final h2 { margin: 0 0 12px; color: var(--on-deep); }
+.hm-final p { margin: 0 0 28px; font-size: 1.0625rem; line-height: 1.6; color: var(--on-deep); opacity: .9; }
+.hm-final .hm-ctas { justify-content: center; }
+@media (max-width: 559px) { .hm-final .hm-ctas .btn { flex: 1 1 100%; justify-content: center; } }
