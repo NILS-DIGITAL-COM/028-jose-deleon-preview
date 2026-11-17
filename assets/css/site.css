@@ -2848,3 +2848,13 @@ main > .section + .section { border-top: 1px solid rgba(28,36,51,.07); }
 .hm-final p { margin: 0 0 28px; font-size: 1.0625rem; line-height: 1.6; color: var(--on-deep); opacity: .9; }
 .hm-final .hm-ctas { justify-content: center; }
 @media (max-width: 559px) { .hm-final .hm-ctas .btn { flex: 1 1 100%; justify-content: center; } }
+
+/* Desktop: every .sheet dialog is a centred window, never a phone bottom sheet (Emilio, 2026-11-17: "I got the mobile
+   menu on desktop"). Phones keep the bottom sheet. Same pattern .bk-dlg already used. */
+@media (min-width: 860px) {
+  dialog.sheet { max-width: 640px; max-height: 90vh; margin: auto; border-radius: var(--r-card); overflow-y: auto; }
+  dialog.sheet.book-pick { max-width: 560px; }
+  dialog.sheet .sheet-grab { display: none; }
+  dialog.sheet .sheet-bar { padding-top: 16px; border-radius: var(--r-card) var(--r-card) 0 0; }
+  dialog.mo.sheet:not(.is-in) { transform: translateY(18px) scale(.97); }
+}
