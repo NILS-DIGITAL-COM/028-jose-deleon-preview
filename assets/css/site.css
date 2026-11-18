@@ -2865,3 +2865,18 @@ main > .section + .section { border-top: 1px solid rgba(28,36,51,.07); }
     linear-gradient(to top, rgba(var(--shade), .70) 0%, rgba(var(--shade), .35) 40%, transparent 70%); }
   .hero--home .hero-copy, .hero--home h1, .hero--home .hero-sub, .hero--home .hero-copy p, .hero--home .hm-noevent { text-shadow: 0 1px 14px rgba(0, 0, 0, .35); }
 }
+/* Every photo hero on desktop (2026-11-17, Emilio: white text on bright photos was hard to read on the events and wedding
+   pages): a solid shade under the whole copy column, plus a soft text-shadow. */
+@media (min-width: 760px) {
+  .hero--form .hero-veil, .hero--events .hero-veil { background:
+    linear-gradient(90deg, rgba(var(--shade), .84) 0%, rgba(var(--shade), .7) 40%, rgba(var(--shade), .3) 62%, rgba(var(--shade), .12) 100%),
+    linear-gradient(to top, rgba(var(--shade), .5) 0%, transparent 45%); }
+  .hero:not(.hero--form):not(.hero--home) .hero-veil { background:
+    linear-gradient(90deg, rgba(var(--shade), .84) 0%, rgba(var(--shade), .7) 42%, rgba(var(--shade), .28) 66%, rgba(var(--shade), .1) 100%),
+    linear-gradient(to top, rgba(var(--shade), .74) 0%, rgba(var(--shade), .4) 35%, transparent 65%); }
+  .hero .hero-copy h1, .hero .hero-copy .eyebrow, .hero .hero-copy p, .hero .hero-copy li, .hero .hero-meta p { text-shadow: 0 1px 14px rgba(0, 0, 0, .4); }
+}
+/* "Check your dates" (estate pages, section 2): the house's facts fill the left column, so it never reads as empty */
+.dates-facts { list-style: none; margin: 28px 0 0; padding: 28px 0 0; border-top: 1px solid var(--line, rgba(0,0,0,.12)); display: grid; gap: 16px; }
+.dates-facts li { display: flex; align-items: center; gap: 12px; font-size: 1.125rem; color: var(--ink); }
+.dates-facts .ic { width: 22px; height: 22px; flex: none; color: var(--accent-ink, var(--ink)); }

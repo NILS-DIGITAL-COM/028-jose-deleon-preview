@@ -60,7 +60,8 @@
     var userPaused = RM, inView = false, suspended = false, focusIn = false;
     var per = beats.map(function (b, bi) { return slides.filter(function (s) { return s.b === bi; }).length; });
     var startOf = beats.map(function (b, bi) { for (var n = 0; n < slides.length; n++) if (slides[n].b === bi) return n; return 0; });
-    function running() { return !userPaused && inView && !suspended && !focusIn && !document.hidden; }
+    var scrub = false;
+    function running() { return !scrub && !userPaused && inView && !suspended && !focusIn && !document.hidden; }
     function sync() {
       var r = running();
       root.setAttribute('data-running', r ? '1' : '0');
@@ -178,6 +179,42 @@
     // keyboard focus inside the tour holds it, so the itinerary never scrolls away from a focused stop
     root.addEventListener('focusin', function (e) { if (e.target !== root && e.target.matches(':focus-visible')) { focusIn = true; sync(); } });
     root.addEventListener('focusout', function (e) { if (!root.contains(e.relatedTarget)) { focusIn = false; sync(); } });
+    // Desktop: scrolling through the house section flips through every photo (Emilio, 2026-11-17: "as they scroll
+    // down through the house section, it speeds through the images"). The section is pinned in a taller runway and
+    // the scroll position picks the photo; autoplay rests while it scrubs. Phones, touch and reduced motion keep autoplay.
+    (function () {
+      var sec = root.closest('.section--tour');
+      if (!sec || RM || !window.matchMedia || !matchMedia('(min-width: 1024px) and (pointer: fine)').matches) return;
+      var wrap = document.createElement('div'), PX = 60, warm = false, top = 0;
+      wrap.className = 'tour-runway';
+      sec.parentNode.insertBefore(wrap, sec); wrap.appendChild(sec);
+      sec.style.position = 'sticky';
+      function size() {
+        var h = sec.offsetHeight, vh = innerHeight;
+        // pin so the photo sits just under the sticky header (the heading may scroll away; the photo never does)
+        var hh = 72;   // the sticky estate bar that shows while scrolling (64px) plus a little air
+        var stOff = $('.stg', root).getBoundingClientRect().top - sec.getBoundingClientRect().top;
+        top = h <= vh - hh ? Math.round(hh + (vh - hh - h) / 2) : Math.round(Math.max(vh - h, hh + 16 - stOff));
+        sec.style.top = top + 'px';
+        wrap.style.height = (h + slides.length * PX) + 'px';
+      }
+      function onScroll() {
+        var r = wrap.getBoundingClientRect();
+        if (!warm && r.top < innerHeight * 2) {
+          warm = true;
+          slides.forEach(function (s) { var p = PH[s.k]; if (!p || pre[s.k]) return; pre[s.k] = new Image(); pre[s.k].sizes = sizes; pre[s.k].srcset = p.ss; pre[s.k].src = p.m; });
+        }
+        var run = slides.length * PX, p = (top - r.top) / run, on = p >= 0 && p <= 1;
+        if (on !== scrub) { scrub = on; sync(); }
+        if (!on) { if (p > 1 && i !== slides.length - 1) go(slides.length - 1, true); return; }
+        var n = Math.min(slides.length - 1, Math.floor(p * slides.length));
+        if (n !== i) go(n, true);
+      }
+      size();
+      addEventListener('resize', function () { size(); onScroll(); });
+      addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
     go(0); sync();
     requestAnimationFrame(frame);
     // Hidden by a switch (the /variations/ panel): stop; shown again: carry on unless the visitor paused it.
