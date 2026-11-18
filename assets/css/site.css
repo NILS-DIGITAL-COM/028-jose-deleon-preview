@@ -2858,3 +2858,10 @@ main > .section + .section { border-top: 1px solid rgba(28,36,51,.07); }
   dialog.sheet .sheet-bar { padding-top: 16px; border-radius: var(--r-card) var(--r-card) 0 0; }
   dialog.mo.sheet:not(.is-in) { transform: translateY(18px) scale(.97); }
 }
+/* Home hero, desktop: the copy block is tall (eyebrow, headline, paragraph, buttons, note), so the veil must cover all of it, not only the bottom third */
+@media (min-width: 760px) {
+  .hero--home .hero-veil { background:
+    linear-gradient(90deg, rgba(var(--shade), .80) 0%, rgba(var(--shade), .62) 38%, rgba(var(--shade), .22) 64%, transparent 82%),
+    linear-gradient(to top, rgba(var(--shade), .70) 0%, rgba(var(--shade), .35) 40%, transparent 70%); }
+  .hero--home .hero-copy, .hero--home h1, .hero--home .hero-sub, .hero--home .hero-copy p, .hero--home .hm-noevent { text-shadow: 0 1px 14px rgba(0, 0, 0, .35); }
+}
